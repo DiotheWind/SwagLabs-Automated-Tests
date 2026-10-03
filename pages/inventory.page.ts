@@ -20,7 +20,7 @@ export class InventoryPage {
     }
 
     async navigateTo() {
-        this.page.goto('/inventory.html');
+        await this.page.goto('/inventory.html');
     }
 
     async sortInventory(value: string) {
