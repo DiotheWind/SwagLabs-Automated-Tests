@@ -17,15 +17,15 @@ export class LoginPage {
         await this.page.goto('/');
     }
 
-    async fillUsername(username: string): Promise<void> {
+    async fillUsername(username: string) {
         await this.usernameField.fill(username);
     }
 
-    async fillPassword(password: string): Promise<void> {
+    async fillPassword(password: string) {
         await this.passwordField.fill(password);
     }
 
-    async clickLogin(): Promise<void> {
+    async clickLogin() {
         await this.loginButton.click();
     }
 }
