@@ -7,6 +7,7 @@ test.use({ storageState: { cookies: [], origins: [] } });
 
 test.beforeEach(async ({ page, loginPage }) => {
     await loginPage.navigateTo();
+    await expect(page).toHaveURL('/');
 });
 
 test('Login with correct credentials', async ({ page, loginPage }) => {
