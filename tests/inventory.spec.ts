@@ -1,16 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { InventoryPage } from '../pages/inventory.page';
-import { LoginPage } from '../pages/login.page';
 
 test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-
-    await loginPage.navigateTo();
-    await loginPage.fillUsername(process.env.STANDARD_USERNAME);
-    await loginPage.fillPassword(process.env.PASSWORD);
-    await loginPage.clickLogin();
-
-    await expect(page).toHaveURL('/inventory.html')
+    const inventoryPage = new InventoryPage(page);
+    inventoryPage.navigateTo();
 });
 
 test('Sort inventory in alphabetical order', async ({ page }) => {

@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
 
+test.use({ storageState: { cookies: [], origins: [] } });
+
 test('Login with correct credentials', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const username = process.env.STANDARD_USERNAME;
