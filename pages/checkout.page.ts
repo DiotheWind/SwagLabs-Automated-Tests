@@ -15,6 +15,7 @@ export class CheckoutPage {
     private readonly errorMessage: Locator;
     private readonly continueButton: Locator;
     // step two checkpoint page
+    private readonly checkoutItems: Locator;
     private readonly finishButton: Locator;
 
     constructor(page: Page) {
@@ -24,6 +25,7 @@ export class CheckoutPage {
         this.zipCodeField = page.getByTestId('postalCode');
         this.errorMessage = page.getByTestId('error');
         this.continueButton = page.getByTestId('continue');
+        this.checkoutItems = page.getByTestId('inventory-item-name');
         this.finishButton = page.getByTestId('finish');
     }
 
@@ -41,6 +43,15 @@ export class CheckoutPage {
         }
 
         await this.continueButton.click();
+    }
+
+    async getErrorMessage(): Promise<string> {
+        return await this.errorMessage.innerText();
+    }
+
+    async getItemsinCheckout(): Promise<string[]> {
+        const items = await this.checkoutItems.allInnerTexts();
+        return items;
     }
 
     async finishCheckout() {
