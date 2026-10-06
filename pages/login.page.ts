@@ -1,5 +1,10 @@
 import { type Locator, type Page } from '@playwright/test';
 
+interface LoginCredentials {
+    username?: string;
+    password?: string;
+}
+
 export class LoginPage {
     private readonly page: Page;
     private readonly usernameField: Locator;
@@ -17,15 +22,15 @@ export class LoginPage {
         await this.page.goto('/');
     }
 
-    async fillUsername(username: string) {
-        await this.usernameField.fill(username);
-    }
+    async loginUser(credentials: LoginCredentials = {}) {
+        if (credentials.username) {
+            await this.usernameField.fill(credentials.username);
+        }
 
-    async fillPassword(password: string) {
-        await this.passwordField.fill(password);
-    }
+        if (credentials.password) {
+            await this.passwordField.fill(credentials.password);
+        }
 
-    async clickLogin() {
         await this.loginButton.click();
     }
 }

@@ -11,32 +11,26 @@ test.beforeEach(async ({ page, loginPage }) => {
 });
 
 test('Login with correct credentials', async ({ page, loginPage }) => {
-    await loginPage.fillUsername(username);
-    await loginPage.fillPassword(password);
-    await loginPage.clickLogin();
+    await loginPage.loginUser({ username: username, password: password });
 
     await expect(page).toHaveURL('/inventory.html');
     await expect(page.getByTestId('title')).toHaveText('Products');
 });
 
 test('Login with incorrect credentials', async ({ page, loginPage }) => {
-    await loginPage.fillUsername('no_user');
-    await loginPage.fillPassword('random_password');
-    await loginPage.clickLogin();
+    await loginPage.loginUser({ username: 'no_user', password: 'random_password' });
 
     await expect(page.getByText('Epic sadface: Username and password do not match any user in this service')).toBeVisible();
 });
 
 test('Login without filling the username field', async ({ page, loginPage }) => {
-    await loginPage.fillPassword(password);
-    await loginPage.clickLogin();
+    await loginPage.loginUser({ password: password });
 
     await expect(page.getByText('Epic sadface: Username is required')).toBeVisible();
 });
 
 test('Login without filling the password field', async ({ page, loginPage }) => {
-    await loginPage.fillUsername(username);
-    await loginPage.clickLogin();
+    await loginPage.loginUser({ username: username });
 
     await expect(page.getByText('Epic sadface: Password is required')).toBeVisible();
 });
