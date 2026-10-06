@@ -17,27 +17,27 @@ test('Login with correct credentials', async ({ page, loginPage }) => {
     await expect(page.getByTestId('title')).toHaveText('Products');
 });
 
-test('Login with incorrect credentials', async ({ page, loginPage }) => {
+test('Login with incorrect credentials', async ({ loginPage }) => {
     await loginPage.loginUser({ username: 'no_user', password: 'random_password' });
 
-    await expect(page.getByText('Epic sadface: Username and password do not match any user in this service')).toBeVisible();
+    expect(await loginPage.getErrorMessage()).toBe('Epic sadface: Username and password do not match any user in this service');
 });
 
-test('Login without filling the username field', async ({ page, loginPage }) => {
+test('Login without filling the username field', async ({ loginPage }) => {
     await loginPage.loginUser({ password: password });
 
-    await expect(page.getByText('Epic sadface: Username is required')).toBeVisible();
+    expect(await loginPage.getErrorMessage()).toBe('Epic sadface: Username is required');
 });
 
-test('Login without filling the password field', async ({ page, loginPage }) => {
+test('Login without filling the password field', async ({ loginPage }) => {
     await loginPage.loginUser({ username: username });
 
-    await expect(page.getByText('Epic sadface: Password is required')).toBeVisible();
+    expect(await loginPage.getErrorMessage()).toBe('Epic sadface: Password is required');
 });
 
-test('Accessing the inventory page without logging in', async ({ page, inventoryPage }) => {
+test('Accessing the inventory page without logging in', async ({ page, loginPage, inventoryPage }) => {
     await inventoryPage.navigateTo();
 
     await expect(page).toHaveURL('/');
-    await expect(page.getByText("Epic sadface: You can only access '/inventory.html' when you are logged in.")).toBeVisible();
+    expect(await loginPage.getErrorMessage()).toBe("Epic sadface: You can only access '/inventory.html' when you are logged in.");
 });

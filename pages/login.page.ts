@@ -10,12 +10,14 @@ export class LoginPage {
     private readonly usernameField: Locator;
     private readonly passwordField: Locator;
     private readonly loginButton: Locator;
+    private readonly errorMessage: Locator;
 
     constructor(page: Page) {
         this.page = page;
         this.usernameField = page.getByPlaceholder('Username');
         this.passwordField = page.getByPlaceholder('Password');
         this.loginButton = page.getByTestId('login-button');
+        this.errorMessage = page.getByTestId('error');
     }
 
     async navigateTo() {
@@ -32,5 +34,9 @@ export class LoginPage {
         }
 
         await this.loginButton.click();
+    }
+
+    async getErrorMessage(): Promise<string> {
+        return await this.errorMessage.innerText();
     }
 }
