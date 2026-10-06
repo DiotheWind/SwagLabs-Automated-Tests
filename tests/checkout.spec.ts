@@ -1,6 +1,6 @@
 import { test, expect } from '../fixtures/test';
 import { faker } from '@faker-js/faker/locale/en';
-import { TARGET_ITEMS as items } from '../data/targetItems.data';
+import { TARGET_ITEMS as items } from '../data/testData';
 
 let randomFirstName: string;
 let randomLastName: string;

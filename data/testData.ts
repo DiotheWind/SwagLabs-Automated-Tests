@@ -1,3 +1,4 @@
+// Target items for cart and checkout
 export const TARGET_ITEMS = [
   'Sauce Labs Backpack',
   'Sauce Labs Bike Light',

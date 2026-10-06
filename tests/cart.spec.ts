@@ -1,5 +1,5 @@
 import { test, expect } from '../fixtures/test';
-import { TARGET_ITEMS as items } from '../data/targetItems.data';
+import { TARGET_ITEMS as items } from '../data/testData';
 
 test.beforeEach(async ({ page, inventoryPage }) => {
     await inventoryPage.navigateTo();
