@@ -3,10 +3,12 @@ import { type Locator, type Page } from '@playwright/test';
 export class CartPage {
     private readonly page: Page;
     private readonly cartItemNames: Locator;
+    private readonly checkoutButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
         this.cartItemNames = page.getByTestId('inventory-item-name');
+        this.checkoutButton = page.getByTestId('checkout');
     }
 
     async navigateTo() {
@@ -26,5 +28,9 @@ export class CartPage {
     async removeItemFromCart(name: string) {
         const itemID = name.trim().toLowerCase().replace(/\s+/g, '-');
         await this.page.getByTestId(`remove-${itemID}`).click();
+    }
+
+    async checkoutItems() {
+        await this.checkoutButton.click();
     }
 }
