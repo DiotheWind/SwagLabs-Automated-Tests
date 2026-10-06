@@ -1,6 +1,5 @@
 import { test, expect } from '../fixtures/test';
-
-const products = ['Sauce Labs Backpack', 'Sauce Labs Bike Light', 'Test.allTheThings() T-Shirt (Red)', 'Sauce Labs Fleece Jacket'];
+import { TARGET_ITEMS as items } from '../data/targetItems.data';
 
 test.beforeEach(async ({ page, inventoryPage }) => {
     await inventoryPage.navigateTo();
@@ -8,8 +7,8 @@ test.beforeEach(async ({ page, inventoryPage }) => {
 });
 
 test('Add items to cart from inventory page', async ({ page, inventoryPage, cartPage }) => {
-    for (const product of products) {
-        await inventoryPage.addItemToCart(product);
+    for (const item of items) {
+        await inventoryPage.addItemToCart(item);
     }
 
     await inventoryPage.clickCartLink();
@@ -18,13 +17,13 @@ test('Add items to cart from inventory page', async ({ page, inventoryPage, cart
     const cartLength = await cartPage.getNumberofItemsinCart();
     const itemNames = await cartPage.getItemNamesinCart();
 
-    expect(cartLength).toBe(products.length);
-    expect(itemNames).toEqual(products);
+    expect(cartLength).toBe(items.length);
+    expect(itemNames).toEqual(items);
 });
 
 test('Add item to cart from its detail page', async ({ page, inventoryPage, itemDetail, cartPage }) => {
-    for (const product of products) {
-        await inventoryPage.navigateToItemDetail(product);
+    for (const item of items) {
+        await inventoryPage.navigateToItemDetail(item);
         await expect(page).toHaveURL(/\/inventory-item\.html\?id=\d+$/);
         await itemDetail.addToCart();
         await itemDetail.clickBacktoProducts();
@@ -36,20 +35,20 @@ test('Add item to cart from its detail page', async ({ page, inventoryPage, item
     const cartLength = await cartPage.getNumberofItemsinCart();
     const itemNames = await cartPage.getItemNamesinCart();
 
-    expect(cartLength).toBe(products.length);
-    expect(itemNames).toEqual(products);
+    expect(cartLength).toBe(items.length);
+    expect(itemNames).toEqual(items);
 });
 
 test('Remove items from cart', async ({ page, inventoryPage, cartPage }) => {
-    for (const product of products) {
-        await inventoryPage.addItemToCart(product);
+    for (const item of items) {
+        await inventoryPage.addItemToCart(item);
     }
 
     await cartPage.navigateTo();
     await expect(page).toHaveURL('/cart.html');
 
-    for (const product of products) {
-        await cartPage.removeItemFromCart(product);
+    for (const item of items) {
+        await cartPage.removeItemFromCart(item);
     }
 
     const cartLength = await cartPage.getNumberofItemsinCart();
@@ -57,8 +56,8 @@ test('Remove items from cart', async ({ page, inventoryPage, cartPage }) => {
 });
 
 test('Reset app state', async ({ page, inventoryPage, cartPage }) => {
-    for (const product of products) {
-        await inventoryPage.addItemToCart(product);
+    for (const item of items) {
+        await inventoryPage.addItemToCart(item);
     }
 
     await inventoryPage.resetAppState();

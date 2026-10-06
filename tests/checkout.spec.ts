@@ -1,7 +1,7 @@
 import { test, expect } from '../fixtures/test';
 import { faker } from '@faker-js/faker/locale/en';
+import { TARGET_ITEMS as items } from '../data/targetItems.data';
 
-const products = ['Sauce Labs Backpack', 'Sauce Labs Bike Light', 'Test.allTheThings() T-Shirt (Red)', 'Sauce Labs Fleece Jacket'];
 let randomFirstName: string;
 let randomLastName: string;
 let randomZipCode: string;
@@ -14,8 +14,8 @@ test.beforeEach(async ({ page, inventoryPage, cartPage }) => {
     await inventoryPage.navigateTo();
     await expect(page).toHaveURL('/inventory.html');
 
-    for (const product of products) {
-        await inventoryPage.addItemToCart(product);
+    for (const item of items) {
+        await inventoryPage.addItemToCart(item);
     }
 
     await inventoryPage.clickCartLink();
@@ -33,7 +33,7 @@ test('Checkout items', async ({ page, checkoutPage }) => {
     });
 
     await expect(page).toHaveURL('/checkout-step-two.html');
-    expect(await checkoutPage.getItemsinCheckout()).toEqual(products);
+    expect(await checkoutPage.getItemsinCheckout()).toEqual(items);
 
     await checkoutPage.finishCheckout();
 
