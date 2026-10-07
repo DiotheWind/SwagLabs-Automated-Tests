@@ -1,10 +1,10 @@
 import { type Locator, type Page } from '@playwright/test';
 
 export class ItemDetail {
-    private readonly page: Page;
-    private readonly backToProductsLink: Locator;
-    private readonly itemName: Locator;
-    private readonly addToCartButton: Locator;
+    readonly page: Page;
+    readonly backToProductsLink: Locator;
+    readonly itemName: Locator;
+    readonly addToCartButton: Locator;
 
     constructor(page: Page) {
         this.page = page;

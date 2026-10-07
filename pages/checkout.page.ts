@@ -7,16 +7,18 @@ interface informationDetails {
 }
 
 export class CheckoutPage {
-    private readonly page: Page;
+    readonly page: Page;
     // step one checkpoint page
-    private readonly firstNameField: Locator;
-    private readonly lastNameField: Locator;
-    private readonly zipCodeField: Locator;
-    private readonly errorMessage: Locator;
-    private readonly continueButton: Locator;
+    readonly firstNameField: Locator;
+    readonly lastNameField: Locator;
+    readonly zipCodeField: Locator;
+    readonly errorMessage: Locator;
+    readonly continueButton: Locator;
     // step two checkpoint page
-    private readonly checkoutItems: Locator;
-    private readonly finishButton: Locator;
+    readonly checkoutItems: Locator;
+    readonly finishButton: Locator;
+    // checkout complete page
+    readonly checkoutCompleteText: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -27,6 +29,7 @@ export class CheckoutPage {
         this.continueButton = page.getByTestId('continue');
         this.checkoutItems = page.getByTestId('inventory-item-name');
         this.finishButton = page.getByTestId('finish');
+        this.checkoutCompleteText = page.getByTestId('complete-header');
     }
 
     async fillInformationandContinue(details: informationDetails = {}) {

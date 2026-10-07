@@ -6,11 +6,11 @@ interface LoginCredentials {
 }
 
 export class LoginPage {
-    private readonly page: Page;
-    private readonly usernameField: Locator;
-    private readonly passwordField: Locator;
-    private readonly loginButton: Locator;
-    private readonly errorMessage: Locator;
+    readonly page: Page;
+    readonly usernameField: Locator;
+    readonly passwordField: Locator;
+    readonly loginButton: Locator;
+    readonly errorMessage: Locator;
 
     constructor(page: Page) {
         this.page = page;

@@ -1,16 +1,16 @@
 import { type Locator, type Page } from '@playwright/test';
 
 export class InventoryPage {
-    private readonly page: Page;
-    private readonly productSortDropdown: Locator;
-    private readonly openMenuButton: Locator;
-    private readonly closeMenuButton: Locator;
-    private readonly cartLink: Locator;
-    private readonly logoutLink: Locator;
-    private readonly aboutLink: Locator;
-    private readonly resetAppStateLink: Locator;
-    private readonly inventoryItemNames: Locator;
-    private readonly inventoryPrices: Locator;
+    readonly page: Page;
+    readonly productSortDropdown: Locator;
+    readonly openMenuButton: Locator;
+    readonly closeMenuButton: Locator;
+    readonly cartLink: Locator;
+    readonly logoutLink: Locator;
+    readonly aboutLink: Locator;
+    readonly resetAppStateLink: Locator;
+    readonly inventoryItemNames: Locator;
+    readonly inventoryPrices: Locator;
 
     constructor(page: Page) {
         this.page = page;

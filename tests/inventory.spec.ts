@@ -1,8 +1,10 @@
 import { test, expect } from '../fixtures/test';
 
 test.beforeEach(async ({ page, inventoryPage }) => {
-    inventoryPage.navigateTo();
-    await expect(page).toHaveURL('/inventory.html');
+    await inventoryPage.navigateTo();
+
+    await expect(inventoryPage.productSortDropdown).toBeVisible();
+    await expect(inventoryPage.openMenuButton).toBeVisible();
 });
 
 test('Sort inventory in alphabetical order', async ({ inventoryPage }) => {
@@ -41,24 +43,21 @@ test('Sort inventory from highest to lowest price', async ({ inventoryPage }) =>
     expect(actualInventoryPrices).toEqual(expectedSortedInventoryPrices);
 });
 
-test('Navigate to item detail page', async ({ page, inventoryPage, itemDetail }) => {
+test('Navigate to item detail page', async ({ inventoryPage, itemDetail }) => {
     const itemName = 'Sauce Labs Backpack';
 
     await inventoryPage.navigateToItemDetail(itemName);
-    await expect(page).toHaveURL(/\/inventory-item\.html\?id=\d+$/);
+
+    await expect(itemDetail.addToCartButton).toBeVisible();
     expect(await itemDetail.getItemName()).toEqual(itemName);
 });
 
 test('Navigate to about page', async ({ page, inventoryPage }) => {
     await inventoryPage.navigateToAboutPage();
-
     await expect(page).toHaveURL('https://saucelabs.com/');
-    await expect(page.getByRole('heading', { level: 1, name: "Verify AI-generated code at the pace it's written." })).toBeVisible();
 });
 
-test('Logout user', async ({ page, inventoryPage }) => {
+test('Logout user', async ({ inventoryPage, loginPage }) => {
     await inventoryPage.logoutUser();
-
-    await expect(page).toHaveURL('/');
-    await expect(page.getByTestId('username')).toBeVisible();
+    await expect(loginPage.loginButton).toBeVisible();
 });

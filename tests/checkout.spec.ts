@@ -6,39 +6,38 @@ let randomFirstName: string;
 let randomLastName: string;
 let randomZipCode: string;
 
-test.beforeEach(async ({ page, inventoryPage, cartPage }) => {
+test.beforeEach(async ({ inventoryPage, cartPage, checkoutPage }) => {
     randomFirstName = faker.person.firstName();
     randomLastName = faker.person.lastName();
     randomZipCode = faker.location.zipCode();
 
     await inventoryPage.navigateTo();
-    await expect(page).toHaveURL('/inventory.html');
+    await expect(inventoryPage.productSortDropdown).toBeVisible();
 
     for (const item of items) {
         await inventoryPage.addItemToCart(item);
     }
 
     await inventoryPage.clickCartLink();
-    await expect(page).toHaveURL('/cart.html');
+    await expect(cartPage.checkoutButton).toBeVisible();
 
     await cartPage.checkoutItems();
-    await expect(page).toHaveURL('/checkout-step-one.html');
+    await expect(checkoutPage.continueButton).toBeVisible();
 });
 
-test('Checkout items', async ({ page, checkoutPage }) => {
+test('Checkout items', async ({ checkoutPage }) => {
     await checkoutPage.fillInformationandContinue({
         firstName: randomFirstName,
         lastName: randomLastName,
         zipCode: randomZipCode
     });
 
-    await expect(page).toHaveURL('/checkout-step-two.html');
+    await expect(checkoutPage.finishButton).toBeVisible();
     expect(await checkoutPage.getItemsinCheckout()).toEqual(items);
 
     await checkoutPage.finishCheckout();
 
-    await expect(page).toHaveURL('/checkout-complete.html');
-    await expect(page.getByTestId('complete-header')).toBeVisible();
+    await expect(checkoutPage.checkoutCompleteText).toBeVisible();
 });
 
 test('Checkout items without filling the first name field', async ({ checkoutPage }) => {

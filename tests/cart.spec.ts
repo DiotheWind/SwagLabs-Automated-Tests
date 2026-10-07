@@ -1,18 +1,18 @@
 import { test, expect } from '../fixtures/test';
 import { TARGET_ITEMS as items } from '../data/testData';
 
-test.beforeEach(async ({ page, inventoryPage }) => {
+test.beforeEach(async ({ inventoryPage }) => {
     await inventoryPage.navigateTo();
-    await expect(page).toHaveURL('/inventory.html');
+    await expect(inventoryPage.productSortDropdown).toBeVisible();
 });
 
-test('Add items to cart from inventory page', async ({ page, inventoryPage, cartPage }) => {
+test('Add items to cart from inventory page', async ({ inventoryPage, cartPage }) => {
     for (const item of items) {
         await inventoryPage.addItemToCart(item);
     }
 
     await inventoryPage.clickCartLink();
-    await expect(page).toHaveURL('/cart.html');
+    await expect(cartPage.checkoutButton).toBeVisible();
 
     const cartLength = await cartPage.getNumberofItemsinCart();
     const itemNames = await cartPage.getItemNamesinCart();
@@ -21,16 +21,17 @@ test('Add items to cart from inventory page', async ({ page, inventoryPage, cart
     expect(itemNames).toEqual(items);
 });
 
-test('Add item to cart from its detail page', async ({ page, inventoryPage, itemDetail, cartPage }) => {
+test('Add item to cart from its detail page', async ({ inventoryPage, itemDetail, cartPage }) => {
     for (const item of items) {
         await inventoryPage.navigateToItemDetail(item);
-        await expect(page).toHaveURL(/\/inventory-item\.html\?id=\d+$/);
+        await expect(itemDetail.addToCartButton).toBeVisible();
         await itemDetail.addToCart();
         await itemDetail.clickBacktoProducts();
+        await expect(inventoryPage.productSortDropdown).toBeVisible();
     }
 
     await inventoryPage.clickCartLink();
-    await expect(page).toHaveURL('/cart.html');
+    await expect(cartPage.checkoutButton).toBeVisible();
 
     const cartLength = await cartPage.getNumberofItemsinCart();
     const itemNames = await cartPage.getItemNamesinCart();
@@ -39,13 +40,13 @@ test('Add item to cart from its detail page', async ({ page, inventoryPage, item
     expect(itemNames).toEqual(items);
 });
 
-test('Remove items from cart', async ({ page, inventoryPage, cartPage }) => {
+test('Remove items from cart', async ({ inventoryPage, cartPage }) => {
     for (const item of items) {
         await inventoryPage.addItemToCart(item);
     }
 
     await cartPage.navigateTo();
-    await expect(page).toHaveURL('/cart.html');
+    await expect(cartPage.checkoutButton).toBeVisible();
 
     for (const item of items) {
         await cartPage.removeItemFromCart(item);
@@ -55,7 +56,7 @@ test('Remove items from cart', async ({ page, inventoryPage, cartPage }) => {
     expect(cartLength).toBe(0);
 });
 
-test('Reset app state', async ({ page, inventoryPage, cartPage }) => {
+test('Reset app state', async ({ inventoryPage, cartPage }) => {
     for (const item of items) {
         await inventoryPage.addItemToCart(item);
     }
@@ -64,7 +65,7 @@ test('Reset app state', async ({ page, inventoryPage, cartPage }) => {
     await inventoryPage.closeSidebarMenu();
     await inventoryPage.clickCartLink();
 
-    await expect(page).toHaveURL('/cart.html');
+    await expect(cartPage.checkoutButton).toBeVisible();
 
     const cartLength = await cartPage.getNumberofItemsinCart();
     expect(cartLength).toBe(0);

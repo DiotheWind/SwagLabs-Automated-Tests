@@ -1,9 +1,9 @@
 import { type Locator, type Page } from '@playwright/test';
 
 export class CartPage {
-    private readonly page: Page;
-    private readonly cartItemNames: Locator;
-    private readonly checkoutButton: Locator;
+    readonly page: Page;
+    readonly cartItemNames: Locator;
+    readonly checkoutButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
